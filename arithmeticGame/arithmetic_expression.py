@@ -4,8 +4,6 @@ from small_integer import SmallInteger
 class ArithmeticExpression(object):
     """Select a random arithmetic expression."""
     
-    MAX = 100
-    
     def __init__(self):
         self._a = SmallInteger()
         self._b = SmallInteger()
@@ -13,9 +11,11 @@ class ArithmeticExpression(object):
         self._answer = self._op.apply(self._a, self._b)
         
     def get_question_string(self):
+        """Get a string representation of the expression."""
         return "%s %s %s = ?" % (self._a, self._op, self._b)
         
     def get_answer_string(self):
+        """Get a string representation of the expression and it's result."""
         return "%s %s %s = %d" % (self._a, self._op, self._b, self._answer)
         
     def check_answer(self, test):

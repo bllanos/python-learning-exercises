@@ -12,11 +12,12 @@ class ScoreKeeper(object):
         # further according to operator or number sizes.
         
     def start_round(self):
+        """Mark the start of a timed round."""
         assert self._current_time == 0, "start_round called out of order"
         self._current_time = time()
         
     def end_round(self, correct):
-        """Mark the end of a round, with a boolean indicating
+        """Mark the end of a timed round, with a boolean indicating
         whether the user won.
         """
         assert self._current_time != 0, "end_round called out of order"

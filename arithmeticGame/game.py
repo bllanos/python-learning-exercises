@@ -1,7 +1,9 @@
 from score_keeper import ScoreKeeper
 from arithmetic_expression import ArithmeticExpression
 
+# Perhaps this could be a static method of `Game`.
 def _prompt_for_integer():
+    """Ask the user to enter integers until they enter an integer."""
     while True:
         try:
             string = raw_input("> ")
@@ -16,6 +18,7 @@ class Game(object):
         self._score = ScoreKeeper()
         
     def run(self):
+        """Play the game."""
         print """
         Try to answer the following questions correctly and quickly.
         Press Enter to begin. Press CTRL+D to exit any time.
