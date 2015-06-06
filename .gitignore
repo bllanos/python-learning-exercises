@@ -1,1 +1,17 @@
-*.pyc
+# Backup files
+*.~
+
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+.eggs/
+*.egg-info/
+.installed.cfg
+bin/
+include/
+lib/
+lib64/
+lib64
+man/
+pip-selfcheck.json
