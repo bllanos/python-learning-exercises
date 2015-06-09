@@ -27,7 +27,8 @@ config = {
     'name': 'skeleton',
     'entry_points': {
         'console_scripts': [
-            'skeleton=skeleton:main'
+            'skeleton=skeleton:main',
+            'hello_world=skeleton.hello_world_script:hello_world'
         ],
     },
 }
