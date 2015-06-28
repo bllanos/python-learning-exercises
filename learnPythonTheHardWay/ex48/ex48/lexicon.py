@@ -68,4 +68,5 @@ def test_numbers(pairs):
 
 LEXICON_TESTS.append(test_numbers)
 
-__all__ = ['scan']
+__all__ = ['scan', 'DIRECTION_TOKEN', 'VERB_TOKEN', 'STOP_TOKEN', 'NOUN_TOKEN',
+           'NUMBER_TOKEN', 'ERROR_TOKEN']
