@@ -20,4 +20,4 @@ class ArithmeticOperator(object):
         
     def apply(self, a, b):
         """Evaluate the operator on the given arguments"""
-        return self._op(a.value(), b.value())
+        return self._op(a.value, b.value)
