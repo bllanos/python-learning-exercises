@@ -21,7 +21,7 @@ class SmallInteger(object):
         
     def __str__(self):
         return "%d" % self._value
-        
+
+    @property
     def value(self):
-        # Should use properties instead of accessor functions
         return self._value
