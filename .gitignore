@@ -18,3 +18,5 @@ pip-selfcheck.json
 
 # Test output
 .coverage
+
+.Python
