@@ -11,7 +11,6 @@ def test_question():
     a_str = ae._a.__str__()
     b_str = ae._b.__str__()
     regex = re.compile("^%s\s+[^0-9]+\s+%s\s+[^-0-9]*$" % (a_str, b_str))
-    print ae.get_answer_string()
     assert_is_not_none(regex.match(question))
 
 def test_answer():
@@ -24,7 +23,6 @@ def test_answer():
     b_str = ae._b.__str__()
     answer_str = ae._answer.__str__()
     regex = re.compile("^%s\s+[^0-9]+\s+%s\s+[^-0-9]*%s$" % (a_str, b_str, answer_str))
-    print ae.get_answer_string()
     assert_is_not_none(regex.match(answer))
 
 def test_check_answer():

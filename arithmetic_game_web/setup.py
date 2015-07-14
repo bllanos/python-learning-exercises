@@ -11,6 +11,8 @@ config = {
     'setup_requires':[
         'nose>=1.0',
         'mock>=1.0',
+        # Needed by 'mock' on Python 2, but not installed automatically, for some reason
+        'funcsigs>=0.4',
         'coverage>=3.7'
     ],
     'packages': find_packages(exclude=['tests*']),
