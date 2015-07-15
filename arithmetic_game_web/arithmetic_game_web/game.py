@@ -1,55 +1,67 @@
 from score_keeper import ScoreKeeper
 from arithmetic_expression import ArithmeticExpression
 
-# Perhaps this could be a static method of `Game`.
-def _prompt_for_integer():
-    """Ask the user to enter integers until they enter an integer."""
-    while True:
-        try:
-            string = raw_input("> ")
-            return int(string)
-        except ValueError as err:
-            print "Please enter an integer."
+class GameOverMsg(Exception):
+    pass
 
-class Game(object):
-    """A small console-based arithmetic quiz game."""
+class BadInputMsg(Exception):
+    pass
+
+QUIT = 'quit'
+
+def parse_input(input_str):
+    words = input_str.split()
+    if len(words) > 1:
+        raise BadInputMsg("Expected a single word or number as input.")
+    else:
+        word = words[0]
+        if word == QUIT:
+            raise GameOverMsg("You have quit.")
+        try:
+            return int(input_str)
+        except ValueError as err:
+            raise BadInputMsg("Please enter an integer.")
+
+def run_game():
+    """A small arithmetic quiz game.
+
+    Runs as a generator, which yields instructions for the player,
+    and stops yielding messages after the game is over.
+    """
     
-    def __init__(self):
-        self._score = ScoreKeeper()
+    score = ScoreKeeper()
         
-    def run(self):
-        """Play the game."""
-        print """
-        Try to answer the following questions correctly and quickly.
-        Press Enter to begin. Press CTRL+D to exit any time.
-        """
-        try:
-            raw_input()
-        except EOFError:
-            print "See you later."
-            return None
-            
-        correct = True
-        try:
-            while correct:
-                expression = ArithmeticExpression()
-                print "%s" % expression.get_question_string()
-                self._score.start_round()
-                test_answer = _prompt_for_integer()
-                correct = expression.check_answer(test_answer)
-                self._score.end_round(correct)
-                if correct:
-                    print "Correct!"
-                    raw_input("Press Enter to continue.")
-                else:
-                    print "Incorrect. The answer is: "
-                    correct = False
-                    print "%s" % expression.get_answer_string()
-            print "End of game."
-        except EOFError:
-            print "You have quit."
-            
-        print self._score
-        return None
+    yield "Try to answer the following questions correctly and quickly."
+        "Press the button to proceed and to send input"
+        "from the text field."
+        "You can quit by typing '%s' into the field." % QUIT
+
+    try:
+        while True:
+            expression = ArithmeticExpression()
+            # Starting the round before displaying the question means
+            # that network latency and rendering speed are not taken into account.
+            score.start_round()
+            question = expression.get_question_string()
+            test_answer = (yield question)
+            retry = True
+            while retry:
+                try:
+                    test_answer = parse_input(test_answer)
+                    retry = False
+                    correct = expression.check_answer(test_answer)
+                    score.end_round(correct)
+                    if correct:
+                        yield "Correct!"
+                    else:
+                        raise GameOverMsg("Incorrect. The answer is: "
+                                "%s" % expression.get_answer_string()
+                              )
+                except BadInputMsg as err:
+                    test_answer = (yield "%s The question was %s." % (err, question))
+    except GameOverMsg as err:
+        yield "%s End of game. %s" % (err, score)
+
+    return
     
-__all__ = [Game]
+__all__ = [run_game]
