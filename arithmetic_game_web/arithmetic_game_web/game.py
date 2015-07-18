@@ -9,6 +9,37 @@ class BadInputMsg(Exception):
 
 QUIT = 'quit'
 
+class GameOutput(object):
+    """Holds together an instruction message,
+    the current arithmetic question or answer,
+    an error message, and a score.
+
+    All of these attributes are strings or `None`.
+    """
+
+    def __init__(self, instruction=None, expression=None, error=None, score=None):
+        """`error` is expected to be an Exception,
+        and `score` is expected to be a `ScoreKeeper` object.
+        The other arguments are expected to be strings.
+        """
+        self.instruction = instruction
+        self.expression = expression
+        if error
+            self.error = error.__str__()
+        else
+            self.error = None
+        if score
+            self.score = score.__str__()
+        else
+            self.score = None
+
+    def __str__(self):
+        """Intended for debugging purposes."""
+        return "%s = %s" % (
+            type(self).__name__,
+            self.__dict__
+        )
+
 def parse_input(input_str):
     words = input_str.split()
     if len(words) > 1:
@@ -27,15 +58,18 @@ def run_game():
 
     Runs as a generator, which yields instructions for the player,
     and stops yielding messages after the game is over.
+    All output is `GameOutput` objects.
     """
     
     score = ScoreKeeper()
         
-    yield "Try to answer the following questions correctly and quickly."
+    yield GameOutput(instruction="Try to answer the following questions correctly and quickly."
         "Press the button to proceed and to send input"
         "from the text field."
         "You can quit by typing '%s' into the field." % QUIT
+    )
 
+    expression = None
     try:
         while True:
             expression = ArithmeticExpression()
@@ -43,7 +77,7 @@ def run_game():
             # that network latency and rendering speed are not taken into account.
             score.start_round()
             question = expression.get_question_string()
-            test_answer = (yield question)
+            test_answer = (yield GameOutput(expression=question))
             retry = True
             while retry:
                 try:
@@ -52,16 +86,27 @@ def run_game():
                     correct = expression.check_answer(test_answer)
                     score.end_round(correct)
                     if correct:
-                        yield "Correct!"
+                        yield GameOutput(
+                            instruction="Correct!",
+                            expression=expression.get_answer_string()
+                        )
                     else:
-                        raise GameOverMsg("Incorrect. The answer is: "
-                                "%s" % expression.get_answer_string()
+                        raise GameOverMsg("Incorrect. Your answer was: "
+                                "%s." % test_answer
                               )
                 except BadInputMsg as err:
-                    test_answer = (yield "%s The question was %s." % (err, question))
+                    test_answer = (yield GameOutput(
+                        expression=question,
+                        error=err)
+                    )
     except GameOverMsg as err:
-        yield "%s End of game. %s" % (err, score)
+        yield GameOutput(
+            instruction="End of game.",
+            expression=expression.get_answer_string(),
+            error=err,
+            score
+        )
 
     return
     
-__all__ = [run_game]
+__all__ = [run_game, GameOutput]
