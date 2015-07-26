@@ -24,13 +24,13 @@ class GameOutput(object):
         """
         self.instruction = instruction
         self.expression = expression
-        if error
+        if error:
             self.error = error.__str__()
-        else
+        else:
             self.error = None
-        if score
+        if score:
             self.score = score.__str__()
-        else
+        else:
             self.score = None
 
     def __str__(self):
@@ -104,7 +104,7 @@ def run_game():
             instruction="End of game.",
             expression=expression.get_answer_string(),
             error=err,
-            score
+            score=score
         )
 
     return
