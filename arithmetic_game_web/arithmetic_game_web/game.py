@@ -41,6 +41,8 @@ class GameOutput(object):
         )
 
 def parse_input(input_str):
+    if not isinstance(input_str, str):
+        raise BadInputMsg("Expected a string as input.")
     words = input_str.split()
     if len(words) > 1:
         raise BadInputMsg("Expected a single word or number as input.")
@@ -62,7 +64,9 @@ def run_game():
     """
     
     score = ScoreKeeper()
-        
+
+    # Note the coupling here between the game logic and the user interface.
+    # In a more elaborate program, the two should be better separated.
     yield GameOutput(instruction="Try to answer the following questions correctly and quickly."
         "Press the button to proceed and to send input"
         "from the text field."
