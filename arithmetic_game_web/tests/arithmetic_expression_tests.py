@@ -1,5 +1,5 @@
 from nose.tools import *
-from arithmetic_game_web.arithmetic_expression import ArithmeticExpression
+from arithmetic_game_web.game_logic.arithmetic_expression import ArithmeticExpression
 import re
 
 def test_question():

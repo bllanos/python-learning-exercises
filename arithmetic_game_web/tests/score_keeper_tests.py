@@ -1,9 +1,9 @@
 from nose.tools import *
 from mock import patch
 
-from arithmetic_game_web.score_keeper import ScoreKeeper
+from arithmetic_game_web.game_logic.score_keeper import ScoreKeeper
 
-@patch('arithmetic_game_web.score_keeper.time',return_value=1)
+@patch('arithmetic_game_web.game_logic.score_keeper.time',return_value=1)
 def test_start_round(mock_time):
     sk = ScoreKeeper()
     sk.start_round()
@@ -21,7 +21,7 @@ def test_end_round_order():
     sk.end_round(True)
 
 def test_end_round_correct():
-    with patch('arithmetic_game_web.score_keeper.time',return_value=1) as mock_time:
+    with patch('arithmetic_game_web.game_logic.score_keeper.time',return_value=1) as mock_time:
         sk = ScoreKeeper()
         sk.start_round()
         mock_time.return_value = 4
@@ -31,7 +31,7 @@ def test_end_round_correct():
         assert_equal(sk._counts, [1, 0])
 
 def test_end_round_incorrect():
-    with patch('arithmetic_game_web.score_keeper.time',return_value=1) as mock_time:
+    with patch('arithmetic_game_web.game_logic.score_keeper.time',return_value=1) as mock_time:
         sk = ScoreKeeper()
         sk.start_round()
         mock_time.return_value = 4
@@ -41,7 +41,7 @@ def test_end_round_incorrect():
         assert_equal(sk._counts, [0, 1])
 
 def test_str():
-    with patch('arithmetic_game_web.score_keeper.time',return_value=1) as mock_time:
+    with patch('arithmetic_game_web.game_logic.score_keeper.time',return_value=1) as mock_time:
         sk = ScoreKeeper()
         sk.start_round()
         mock_time.return_value = 4

@@ -1,5 +1,5 @@
 from nose.tools import *
-from arithmetic_game_web.small_integer import SmallInteger
+from arithmetic_game_web.game_logic.small_integer import SmallInteger
 
 def test_max_immutability():
     """Ensure that the `MAX` constant of the class

@@ -1,6 +1,6 @@
 from nose.tools import *
 import unittest
-import arithmetic_game_web.game as game
+from arithmetic_game_web.game_logic import game
 import re
 from mock import patch
 
@@ -142,7 +142,7 @@ class test_run_game(unittest.TestCase):
 
     @raises(StopIteration)
     @patch(
-        'arithmetic_game_web.game.ArithmeticExpression',
+        'arithmetic_game_web.game_logic.game.ArithmeticExpression',
         new=MockArithmeticExpression
     )
     def test_wrong_answer(self):
@@ -163,7 +163,7 @@ class test_run_game(unittest.TestCase):
         gen.send(None) # Game should have ended
 
     @patch(
-        'arithmetic_game_web.game.ArithmeticExpression',
+        'arithmetic_game_web.game_logic.game.ArithmeticExpression',
         new=MockArithmeticExpression
     )
     def test_right_answer(self):
