@@ -16,6 +16,9 @@ lib64
 man/
 pip-selfcheck.json
 
+# Browser sessions
+sessions/
+
 # Test output
 .coverage
 
