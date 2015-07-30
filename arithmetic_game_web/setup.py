@@ -17,7 +17,11 @@ config = {
     ],
     'packages': find_packages(exclude=['tests*']),
     'name': 'arithmetic_game_web',
-    'entry_points': {},
+    'entry_points': {
+        'console_scripts': [
+            'main = arithmetic_game_web.web.app:main'
+        ]
+    },
 }
 
 setup(**config)

@@ -14,5 +14,7 @@ class Index(object):
     def GET(self):
         web.seeother('/static/index.html')
 
-if __name__ == "__main__":
+def main():
     app.run()
+
+__all__ = [main]
