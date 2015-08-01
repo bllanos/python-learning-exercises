@@ -111,14 +111,9 @@ class test_run_game(unittest.TestCase):
 
     @raises(StopIteration)
     def test_quit(self):
-        """It should accept a quit message as the first input,
-        and should indicate in the first instruction that the user can quit.
+        """It should accept a quit message as the first input.
         """
         gen = run_game()
-        output = gen.send(None) # Get play instructions
-        assert_true(isinstance(output, GameOutput))
-        regex = re.compile("(.)*%s(.)*" % QUIT)
-        assert_is_not_none(regex.match(output.instruction))
         output = gen.send(None) # Get first question
         assert_true(isinstance(output, GameOutput))
         output = gen.send(QUIT) # Answer first question
@@ -129,8 +124,6 @@ class test_run_game(unittest.TestCase):
         """It should retry a question on bad input
         """
         gen = run_game()
-        output = gen.send(None) # Get play instructions
-        assert_true(isinstance(output, GameOutput))
         output = gen.send(None) # Get first question
         assert_true(isinstance(output, GameOutput))
         question = output.expression
@@ -149,8 +142,6 @@ class test_run_game(unittest.TestCase):
         """It should end game on wrong answer.
         """
         gen = run_game()
-        output = gen.send(None) # Get play instructions
-        assert_true(isinstance(output, GameOutput))
         output = gen.send(None) # Get first question
         assert_true(isinstance(output, GameOutput))
         assert_equal(output.expression, MockArithmeticExpression.question)
@@ -170,8 +161,6 @@ class test_run_game(unittest.TestCase):
         """It should go to the next question on a correct answer.
         """
         gen = run_game()
-        output = gen.send(None) # Get play instructions
-        assert_true(isinstance(output, GameOutput))
         output = gen.send(None) # Get first question
         assert_true(isinstance(output, GameOutput))
         assert_equal(output.expression, MockArithmeticExpression.question)

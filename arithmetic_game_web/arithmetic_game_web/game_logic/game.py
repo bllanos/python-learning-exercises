@@ -65,14 +65,6 @@ def run_game():
     
     score = ScoreKeeper()
 
-    # Note the coupling here between the game logic and the user interface.
-    # In a more elaborate program, the two should be better separated.
-    yield GameOutput(instruction="Try to answer the following questions correctly and quickly."
-        "Press the button to proceed and to send input"
-        "from the text field."
-        "You can quit by typing '%s' into the field." % QUIT
-    )
-
     expression = None
     try:
         while True:
