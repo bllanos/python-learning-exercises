@@ -41,7 +41,7 @@ class GameOutput(object):
         )
 
 def parse_input(input_str):
-    if not isinstance(input_str, str):
+    if not (isinstance(input_str, str) or isinstance(input_str, unicode)):
         raise BadInputMsg("Expected a string as input.")
     words = input_str.split()
     if len(words) > 1:

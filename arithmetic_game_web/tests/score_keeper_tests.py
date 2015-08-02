@@ -55,7 +55,7 @@ def test_str():
         assert_equal(output,
             "0 questions answered correctly in 0 seconds\n"
             "1 questions answered incorrectly in 3 seconds\n"
-	        "\t3 seconds per question"
+	        "3 seconds per question"
         )
         sk.end_round(True)
         assert_equal(sk._time, [5, 3])
@@ -70,7 +70,7 @@ def test_str():
         output = sk.__str__()
         assert_equal(output,
             "2 questions answered correctly in 6 seconds\n"
-	        "\t3 seconds per question\n"
+	        "3 seconds per question\n"
             "1 questions answered incorrectly in 3 seconds\n"
-	        "\t3 seconds per question"
+	        "3 seconds per question"
         )

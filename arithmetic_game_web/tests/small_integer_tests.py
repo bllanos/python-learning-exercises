@@ -19,7 +19,7 @@ def test_value():
     for i in xrange(0, SmallInteger.MAX * 10):
         s_integer = SmallInteger()
         assert_true(s_integer.value <= SmallInteger.MAX)
-        assert_true(s_integer.value >= 0)
+        assert_true(s_integer.value > 0)
 
 def test_str():
     """Test correct string representation"""

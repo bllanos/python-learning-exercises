@@ -39,7 +39,7 @@ class ScoreKeeper(object):
             )
             if self._counts[i] != 0:
                 strings.append(
-                    "\t%g seconds per question" % (
+                    "%g seconds per question" % (
                         total_time / self._counts[i]
                     )
                 )

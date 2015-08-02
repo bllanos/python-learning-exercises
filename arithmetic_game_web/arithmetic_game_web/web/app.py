@@ -16,7 +16,7 @@ store = web.session.DiskStore('sessions')
 # cannot be serialized (i.e. to be stored in sessions).
 # See http://grokbase.com/t/python/python-bugs-list/112qmspt71/issue11299-allow-deepcopying-and-pickling-paused-generators
 # Had I known, I would have used some means other than generators to store state.
-session = web.session.Session(app, store, initializer={'sessionId': uuid4()})
+session = web.session.Session(app, store, initializer={'session_id': uuid4()})
 render = web.template.render('templates')
 encoder = GameOutputJSONEncoder()
 
@@ -27,29 +27,38 @@ goodSessions = {}
 
 class Index(object):
     def GET(self):
-        sessionId = session.sessionId
-        if not (sessionId in goodSessions):
-            goodSessions[sessionId] = True
+        session_id = session.session_id
+        if not (session_id in goodSessions):
+            goodSessions[session_id] = True
         return render.index(QUIT)
 
 class Game(object):
     def POST(self):
         data = web.input(text=None)
-        sessionId = session.sessionId
+        session_id = session.session_id
         gen = None
-        if not (sessionId in generators):
-            gen = run_game()
-            generators[sessionId] = gen
-            output = gen.next()
-            if not((sessionId in goodSessions) or output.error):
+        if not (session_id in generators):
+            output = self._new_game_output(session_id)
+            if not((session_id in goodSessions) or output.error):
                 output.error = "We lost track of your progress. \
                     You are starting over, sorry :("
         else:
-            gen = generators[sessionId]
-            output = gen.send(data.text)
+            gen = generators[session_id]
+            try:
+                output = gen.send(data.text)
+            except StopIteration as err:
+                # Game over. Restart
+                output = self._new_game_output(session_id)
+                if not(output.error):
+                    output.error = "Just to be clear, you are starting a new game."
 
         web.header('Content-Type', 'application/json')
         return encoder.encode(output)
+
+    def _new_game_output(self, session_id):
+        gen = run_game()
+        generators[session_id] = gen
+        return gen.next()
 
 def main():
     app.run()
