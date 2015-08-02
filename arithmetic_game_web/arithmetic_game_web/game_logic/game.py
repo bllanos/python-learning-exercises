@@ -44,7 +44,7 @@ def parse_input(input_str):
     if not (isinstance(input_str, str) or isinstance(input_str, unicode)):
         raise BadInputMsg("Expected a string as input.")
     words = input_str.split()
-    if len(words) > 1:
+    if len(words) != 1:
         raise BadInputMsg("Expected a single word or number as input.")
     else:
         word = words[0]

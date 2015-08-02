@@ -3,6 +3,7 @@ $(function() {
     var input = $('#next > input');
     var btn = $('#next > button');
     var instructionDiv = $('#instruction');
+    var instruction = $('#instruction > p');
     var expressionDiv = $('#expression');
     var scoreDiv = $('#score');
     var errorDiv = $('#error');
@@ -19,7 +20,7 @@ $(function() {
             },
             success: function(data) {
                 if(typeof data.instruction === 'string') {
-                    instructionDiv.text(data.instruction);
+                    instruction.text(data.instruction);
                     instructionDiv.show();
                 } else {
                     instructionDiv.hide();
@@ -27,8 +28,11 @@ $(function() {
                 if(typeof data.expression === 'string') {
                     expressionDiv.text(data.expression);
                     expressionDiv.show();
-                    if(typeof data.score !== 'string') {
+                    if(typeof data.score !== 'string' && typeof data.instruction !== 'string') {
+                        input.val("");
                         input.show();
+                    } else {
+                        input.hide();
                     }
                 } else {
                     expressionDiv.hide();

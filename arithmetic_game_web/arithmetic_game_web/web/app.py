@@ -16,7 +16,10 @@ store = web.session.DiskStore('sessions')
 # cannot be serialized (i.e. to be stored in sessions).
 # See http://grokbase.com/t/python/python-bugs-list/112qmspt71/issue11299-allow-deepcopying-and-pickling-paused-generators
 # Had I known, I would have used some means other than generators to store state.
-session = web.session.Session(app, store, initializer={'session_id': uuid4()})
+#
+# Note that without the call to `str`, web.py does not create new sessions,
+# because a `UUID` object is not iterable. This is another workaround.
+session = web.session.Session(app, store, initializer={'session_id': str(uuid4())})
 render = web.template.render('templates')
 encoder = GameOutputJSONEncoder()
 
@@ -30,6 +33,9 @@ class Index(object):
         session_id = session.session_id
         if not (session_id in goodSessions):
             goodSessions[session_id] = True
+        if session_id in generators:
+            # Assume the user wants to restart the game
+            del generators[session_id]
         return render.index(QUIT)
 
 class Game(object):
