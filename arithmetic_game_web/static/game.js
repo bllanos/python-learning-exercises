@@ -8,7 +8,50 @@ $(function() {
     var scoreDiv = $('#score');
     var errorDiv = $('#error');
 
-    btn.on('click', function() {
+    var nextResultCb = function(data) {
+        if(typeof data.instruction === 'string') {
+            instruction.text(data.instruction);
+            instructionDiv.show();
+        } else {
+            instructionDiv.hide();
+        }
+        if(typeof data.expression === 'string') {
+            expressionDiv.text(data.expression);
+            expressionDiv.show();
+            if(typeof data.score !== 'string' && typeof data.instruction !== 'string') {
+                input.val("");
+                input.show();
+                // This allows the user to start typing immediately,
+                // as the field is selected.
+                input.focus();
+            } else {
+                input.hide();
+            }
+        } else {
+            expressionDiv.hide();
+            input.hide();
+        }
+        if(typeof data.error === 'string') {
+            errorDiv.text(data.error);
+            errorDiv.show();
+        } else {
+            errorDiv.hide();
+        }
+        if(typeof data.score === 'string') {
+            scoreString = "<p>"
+            components = data.score.split('\n');
+            for(i = 0; i < components.length; ++i) {
+                scoreString += components[i] + "</p>"
+            }
+            scoreDiv.html(scoreString);
+            scoreDiv.show();
+            input.hide();
+        } else {
+            scoreDiv.hide();
+        }
+    };
+
+    var inputSubmitAction = function() {
         $.ajax({
             type: "POST",
             url: '/game',
@@ -18,46 +61,15 @@ $(function() {
                     errorThrown);
                 errorDiv.show();
             },
-            success: function(data) {
-                if(typeof data.instruction === 'string') {
-                    instruction.text(data.instruction);
-                    instructionDiv.show();
-                } else {
-                    instructionDiv.hide();
-                }
-                if(typeof data.expression === 'string') {
-                    expressionDiv.text(data.expression);
-                    expressionDiv.show();
-                    if(typeof data.score !== 'string' && typeof data.instruction !== 'string') {
-                        input.val("");
-                        input.show();
-                    } else {
-                        input.hide();
-                    }
-                } else {
-                    expressionDiv.hide();
-                    input.hide();
-                }
-                if(typeof data.error === 'string') {
-                    errorDiv.text(data.error);
-                    errorDiv.show();
-                } else {
-                    errorDiv.hide();
-                }
-                if(typeof data.score === 'string') {
-                    scoreString = "<p>"
-                    components = data.score.split('\n');
-                    for(i = 0; i < components.length; ++i) {
-                        scoreString += components[i] + "</p>"
-                    }
-                    scoreDiv.html(scoreString);
-                    scoreDiv.show();
-                    input.hide();
-                } else {
-                    scoreDiv.hide();
-                }
-            },
+            success: nextResultCb,
             dataType: "json"
         });
+    };
+
+    btn.on('click', inputSubmitAction);
+    input.on('keydown', function(event) {
+        if(event.key === "Enter") {
+            inputSubmitAction();
+        }
     });
 });
