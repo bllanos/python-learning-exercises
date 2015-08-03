@@ -5,6 +5,7 @@ $(function() {
     var instructionDiv = $('#instruction');
     var instruction = $('#instruction > p');
     var expressionDiv = $('#expression');
+    var expression = $('#expression > p');
     var scoreDiv = $('#score');
     var errorDiv = $('#error');
 
@@ -16,7 +17,7 @@ $(function() {
             instructionDiv.hide();
         }
         if(typeof data.expression === 'string') {
-            expressionDiv.text(data.expression);
+            expression.html(data.expression);
             expressionDiv.show();
             if(typeof data.score !== 'string' && typeof data.instruction !== 'string') {
                 input.val("");
@@ -38,10 +39,10 @@ $(function() {
             errorDiv.hide();
         }
         if(typeof data.score === 'string') {
-            scoreString = "<p>"
+            scoreString = ""
             components = data.score.split('\n');
             for(i = 0; i < components.length; ++i) {
-                scoreString += components[i] + "</p>"
+                scoreString += "<p>" + components[i] + "</p>"
             }
             scoreDiv.html(scoreString);
             scoreDiv.show();
