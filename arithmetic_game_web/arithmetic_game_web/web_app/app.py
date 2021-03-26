@@ -63,7 +63,7 @@ class Game(object):
     def _new_game_output(self, session_id):
         gen = run_game()
         generators[session_id] = gen
-        return gen.next()
+        return next(gen)
 
 
 def main():
