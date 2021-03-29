@@ -1,7 +1,6 @@
 import web
 from ..game_logic.game import QUIT, run_game
 from .serialization import GameOutputJSONEncoder
-from uuid import uuid4
 
 web.config.debug = False
 
@@ -13,10 +12,7 @@ store = web.session.DiskStore("sessions")
 # cannot be serialized (i.e. to be stored in sessions).
 # See http://grokbase.com/t/python/python-bugs-list/112qmspt71/issue11299-allow-deepcopying-and-pickling-paused-generators
 # Had I known, I would have used some means other than generators to store state.
-#
-# Note that without the call to `str`, web.py does not create new sessions,
-# because a `UUID` object is not iterable. This is another workaround.
-session = web.session.Session(app, store, initializer={"session_id": str(uuid4())})
+session = web.session.Session(app, store)
 render = web.template.render("templates")
 encoder = GameOutputJSONEncoder()
 
