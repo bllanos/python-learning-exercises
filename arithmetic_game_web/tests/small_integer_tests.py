@@ -16,7 +16,7 @@ def test_max_immutability():
 def test_value():
     """Probabilistic test that the value is small
     and non-negative"""
-    for i in xrange(0, SmallInteger.MAX * 10):
+    for i in range(0, SmallInteger.MAX * 10):
         s_integer = SmallInteger()
         assert_true(s_integer.value <= SmallInteger.MAX)
         assert_true(s_integer.value > 0)

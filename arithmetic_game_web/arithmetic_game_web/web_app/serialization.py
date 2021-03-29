@@ -1,5 +1,5 @@
 from json import JSONEncoder
-from game_logic.game import GameOutput
+from ..game_logic.game import GameOutput
 
 
 class GameOutputJSONEncoder(JSONEncoder):

@@ -13,7 +13,7 @@ class BadInputMsg(Exception):
 QUIT = "quit"
 
 
-class GameOutput(object):
+class GameOutput:
     """Holds together an instruction message,
     the current arithmetic question or answer,
     an error message, and a score.

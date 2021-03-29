@@ -8,7 +8,7 @@ GameOutput = game.GameOutput
 
 class test_GameOutput(unittest.TestCase):
 
-    class MockScoreKeeper(object):
+    class MockScoreKeeper:
         def __str__(self):
             return "score"
 
@@ -89,7 +89,7 @@ class test_parse_input(unittest.TestCase):
         """It should accept an integer input"""
         assert_equal(parse_input("45325"), 45325)
 
-class MockArithmeticExpression(object):
+class MockArithmeticExpression:
     correct_switch = True
     question = "question"
     answer = "answer"

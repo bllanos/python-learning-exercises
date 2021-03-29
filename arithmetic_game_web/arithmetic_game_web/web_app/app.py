@@ -1,5 +1,5 @@
 import web
-from game_logic.game import QUIT, run_game
+from ..game_logic.game import QUIT, run_game
 from .serialization import GameOutputJSONEncoder
 from uuid import uuid4
 
@@ -26,7 +26,7 @@ generators = {}
 goodSessions = {}
 
 
-class Index(object):
+class Index:
     def GET(self):
         session_id = session.session_id
         if not (session_id in goodSessions):
@@ -37,7 +37,7 @@ class Index(object):
         return render.index(QUIT)
 
 
-class Game(object):
+class Game:
     def POST(self):
         data = web.input(text=None)
         session_id = session.session_id

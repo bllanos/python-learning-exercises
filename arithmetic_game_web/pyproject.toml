@@ -14,7 +14,7 @@ mock = "^4.0.3"
 coverage = "^5.5"
 
 [tool.poetry.scripts]
-poetry = 'arithmetic_game_web.web.app:main'
+main = 'arithmetic_game_web.web_app.app:main'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

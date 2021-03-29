@@ -1,8 +1,7 @@
 from .arithmetic_operator import ArithmeticOperator
 from .small_integer import SmallInteger
 
-
-class ArithmeticExpression(object):
+class ArithmeticExpression:
     """Select a random arithmetic expression."""
 
     def __init__(self):
