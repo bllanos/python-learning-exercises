@@ -24,6 +24,8 @@ It is not intended to set a standard for Python programming, since the code stil
 ### Install dependencies
 1. Run `poetry install` to install dependencies.
 
+   If the command fails, a possible workaround is to create and activate a new Python virtual environment, and then re-run the command. Run all future Poetry commands from inside the virtual environment.
+
 ## Operating instructions
 1. Launch the program from this directory with `poetry run main`.
 2. Navigate to the URL that gets output in the console, and follow the instructions shown on the webpage that appears.
